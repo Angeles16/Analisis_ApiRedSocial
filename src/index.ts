@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 
 import './database';
+import userRoutes from './routes/user.routes'
 
 
 class Server {
@@ -30,14 +31,15 @@ class Server {
     router(): void {
         this.app.get('/', (req, res) => {
             res.send('this index of social mean, is at localhost:3000');
-        })
+        });
+        this.app.use('/user',userRoutes);
     }
 
     start(): void {
         this.app.listen(this.app.get('port'), ()=>{
             console.log(`server on port ${this.app.get('port')}`);
         })
-    }
+    };
 };
 
 const server = new Server();
