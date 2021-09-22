@@ -2,12 +2,18 @@ import express, {Application} from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 
+import './database';
+
 
 class Server {
     public app: Application;
 
     constructor(){
         this.app = express();
+        this.settings();
+        this.middleware();
+        this.router();
+        
     }
 
     settings(): void {

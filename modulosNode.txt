@@ -1,5 +1,5 @@
 //modulos principales
-npm install express mongoose morgan bcrypt jsonwebtoken passport passport-jwt 
+npm install express mongoose morgan cors bcrypt jsonwebtoken passport passport-jwt 
 
 
 jsonwebtoken ==> intercambiar token entre el servidor y el navegador para verigicar si el usuario esta autenticado
