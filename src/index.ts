@@ -1,10 +1,12 @@
 import express, {Application} from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import passport from 'passport';
 
 import './database';
 import userRoutes from './routes/usuario.routes';
-
+import postRoutes from './routes/post.routes';
+import passportMiddleware from './middlewares/passport'
 
 class Server {
     public app: Application;
@@ -26,6 +28,8 @@ class Server {
         this.app.use(cors());
         this.app.use(express.urlencoded({extended:false}));
         this.app.use(express.json());
+        this.app.use(passport.initialize());
+        passport.use(passportMiddleware);
     }
 
     router(): void {
@@ -33,6 +37,7 @@ class Server {
             res.send('this index of social mean, is at localhost:3000');
         });
         this.app.use('/api/user',userRoutes);
+        this.app.use(postRoutes);
     }
 
     start(): void {

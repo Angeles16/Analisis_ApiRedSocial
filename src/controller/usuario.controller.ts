@@ -27,7 +27,6 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
     //console.log(req.body.email);
     //comprobar si no existe el correo 
     const user = await User.findOne({email: req.body.email});
-    console.log(user);
     if(user){
         return res.status(400).json({mensaje: 'The user already exist'});
     }
@@ -46,9 +45,9 @@ export const signIg = async (req: Request, res: Response) => {
     }
     //Consultar data user: any
     const user: any = await User.findOne({email: req.body.email});
-    console.log("USERRRR => ", user)
+    console.log('test content user ==> ' + user)
     if(!user) {
-        res.status(400).json({mensaje: 'The user does not exist'});
+        return res.status(400).json({mensaje: 'The user does not exist'});
     }
 
     const isMatch = await user?.comparePassword(req.body.password);
