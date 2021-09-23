@@ -1,9 +1,6 @@
 import mongoose, { ConnectOptions } from 'mongoose';
 import config from './config/config';
 
-const dbOptions: ConnectOptions = {
-
-}
 
 //parametros para la coneccion a mongose 
 mongoose.connect(config.DB.URI);

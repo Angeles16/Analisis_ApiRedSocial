@@ -2,14 +2,17 @@ import { model, Schema, Document} from 'mongoose';
 import bcrypt = require('bcrypt');
 
 export interface IUser extends Document{
-    nombre: string, 
-    apellido: string, 
-    nick: string, 
-    email: string, 
-    password: string, 
-    roles: string, 
-    imagenes: string
+    nombre: string;
+    apellido: string; 
+    nick: string;
+    email: string; 
+    password: string; 
+    roles: string; 
+    imagenes: string; 
+    comparePassword: (password: string) => Promise<boolean>;
 }
+
+declare let user: IUser | null;
 
 const userSchema = new Schema({
     nombre: {
@@ -40,8 +43,12 @@ const userSchema = new Schema({
     },
     imagenes: {
         type: String
-    }
-});
+    },
+}, 
+/*{
+    versionKey: false,
+    collection: 'usuariosPrueba'
+}*/);
 
 //sifrar la contraseña antes de guardarla
 userSchema.pre<IUser>('save', async function (next) {
@@ -55,10 +62,12 @@ userSchema.pre<IUser>('save', async function (next) {
 });
 
 //comprobar si la ocntraseña ingresada coincide con las ocntraseña gurdada
-userSchema.methods.compparaPassword = async function(password: string): Promise<boolean> {
+userSchema.methods.comparePassword = async function(password: string): Promise<Boolean> {
     return await bcrypt.compare(password, this.password)
     //password => hacer referencia a la contraseña pasada como parametro 
     //this.pssword => hacer referencia a la contraseña almacenada en la base de datos ==/ usuario actual
 }
 
-export default model<IUser>('User', userSchema)
+
+
+export default model<IUser>('Usuario', userSchema)

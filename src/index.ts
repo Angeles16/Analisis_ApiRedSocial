@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 
 import './database';
-import userRoutes from './routes/user.routes'
+import userRoutes from './routes/usuario.routes';
 
 
 class Server {
@@ -32,7 +32,7 @@ class Server {
         this.app.get('/', (req, res) => {
             res.send('this index of social mean, is at localhost:3000');
         });
-        this.app.use('/user',userRoutes);
+        this.app.use('/api/user',userRoutes);
     }
 
     start(): void {
