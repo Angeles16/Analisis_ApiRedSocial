@@ -2,6 +2,7 @@ import { model, Schema, Document} from 'mongoose';
 import bcrypt = require('bcrypt');
 
 export interface IUser extends Document{
+    _id: any;
     nombre: string;
     apellido: string; 
     nick: string;
@@ -11,8 +12,6 @@ export interface IUser extends Document{
     imagenes: string; 
     comparePassword: (password: string) => Promise<boolean>;
 }
-
-declare let user: IUser | null;
 
 const userSchema = new Schema({
     nombre: {
