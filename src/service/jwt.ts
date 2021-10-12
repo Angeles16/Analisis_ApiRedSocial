@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import config from '../config/config';
 import moment from 'moment';
 
+
 export function createToken(user: IUser){
     const payload = {
         id: user.id,

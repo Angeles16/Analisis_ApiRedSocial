@@ -11,13 +11,15 @@ const opts: StrategyOptions = {
 };
 
 
-export default new Strategy(opts, (payload, done) => {
+export default new Strategy(opts, (payload, done) => { //devuelve un payload o un callback para terminar con todo 
     try {
+        //if()
         const user = User.findById(payload.id);
+        console.log(payload.exp);
         if(user){
             return done(null, user);
         }
-    return done(null, false);
+    return done(null, false);   
     } catch (error) {
         console.log(error);
     }
