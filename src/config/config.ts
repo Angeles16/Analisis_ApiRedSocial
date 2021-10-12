@@ -1,7 +1,7 @@
 export default {
     jwtSecret: process.env.JWT_SECRET || 'clave_cecreta_analisis2_red_social',
     DB:{
-        URI: 'mongodb://localhost/mean_social',
+        URI: process.env.MONGODB_URL || 'mongodb://localhost/red_social',
         USER: process.env.MONGODB_USER || '',
         PASSWORD: process.env.MONGODB_PASSWORD || '',
     }

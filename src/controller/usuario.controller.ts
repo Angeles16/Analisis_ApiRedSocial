@@ -24,7 +24,6 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
     if(!req.body.nombre || !req.body.apellido || !req.body.nick || !req.body.email || !req.body.password) {
         return res.status(400).json({mensaje: 'Please. write your data'})
     }
-    //console.log(req.body.email);
     //comprobar si no existe el correo 
     const user = await User.findOne({email: req.body.email});
     if(user){
@@ -47,7 +46,7 @@ export const signIg = async (req: Request, res: Response) => {
     const user: any = await User.findOne({email: req.body.email});
     console.log('test content user ==> ' + user)
     if(!user) {
-        return res.status(400).json({mensaje: 'The user does not exist'});
+        return res.status(400).json({mensaje: 'the password or email are incorrect'});
     }
 
     const isMatch = await user?.comparePassword(req.body.password);
@@ -55,8 +54,8 @@ export const signIg = async (req: Request, res: Response) => {
         //res.status(200).json({mensaje: 'The user set create token'});
         return res.status(200).json({token: jwt.createToken(user)})
     }
-
-    return res.status(400).json({mensaje: 'the email and password are incorrect'});
+    
+    return res.status(400).json({mensaje: 'the email or password are incorrect'});
 }
 
 
@@ -66,4 +65,16 @@ export const consulta = async (req: Request, res: Response) => {
     const user = await User.find();
     User.db.collection('usuarios').find();
     return res.status(200).json({user});
+}
+
+//get data user
+export const getUser = (req: Request, res: Response) => {
+    let userId = req.params.id;
+
+    User.findById(userId, (err: any, user: any) => {
+        if(err) return res.status(500).send({mensaje: "query Error"});
+        if(!user) return res.status(404).send({mensaje: "User not exist"});
+
+        return res.status(200).send({ user })
+    });
 }

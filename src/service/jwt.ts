@@ -13,4 +13,4 @@ export function createToken(user: IUser){
     };
 
     return jwt.sign(payload, config.jwtSecret);
-}
+}    

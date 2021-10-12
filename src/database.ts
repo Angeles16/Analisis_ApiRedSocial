@@ -8,10 +8,10 @@ mongoose.connect(config.DB.URI);
 const connection = mongoose.connection;
 
 connection.once('open', ()=>{
-    console.log(`mongo connection established`);
+    console.log(`mongo connection stablished`);
 })
 
 connection.on('error', err => {
-    console.log('err');
+    console.log(err);
     process.exit(0);
 })

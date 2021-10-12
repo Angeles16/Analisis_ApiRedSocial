@@ -13,7 +13,7 @@ const opts: StrategyOptions = {
 
 export default new Strategy(opts, (payload, done) => {
     try {
-        const user = User.find(payload.id);
+        const user = User.findById(payload.id);
         if(user){
             return done(null, user);
         }

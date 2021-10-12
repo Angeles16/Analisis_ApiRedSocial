@@ -5,7 +5,7 @@ import passport from 'passport';
 
 import './database';
 import userRoutes from './routes/usuario.routes';
-import postRoutes from './routes/post.routes';
+import userProtectRoutes from './routes/userProtect.routes';
 import passportMiddleware from './middlewares/passport'
 
 class Server {
@@ -36,8 +36,10 @@ class Server {
         this.app.get('/', (req, res) => {
             res.send('this index of social mean, is at localhost:3000');
         });
+
+        
         this.app.use('/api/user',userRoutes);
-        this.app.use(postRoutes);
+        this.app.use(userProtectRoutes);
     }
 
     start(): void {

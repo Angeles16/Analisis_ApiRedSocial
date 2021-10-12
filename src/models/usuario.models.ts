@@ -68,5 +68,5 @@ userSchema.methods.comparePassword = async function(password: string): Promise<B
 }
 
 
-
-export default model<IUser>('Usuario', userSchema)
+//almacena datos en un esquema usuarios ==> mongoose setea el nombre del Usuario
+export default model<IUser>('User', userSchema)
