@@ -12,6 +12,5 @@ export function createToken(user: IUser){
         iat: moment().unix(),//Fecha de creacion del token 
         exp: moment().add(30, 'days').unix() //Fecha de expiracion del token
     };
-
     return jwt.sign(payload, config.jwtSecret);
 }    

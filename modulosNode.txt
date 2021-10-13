@@ -16,6 +16,9 @@ ejecutar comando despues de compilar el codigo, para despues de ejecutar codigo 
 npx tsc --init 
 
 
+//MONGOSE PAGINATION
+npm install mongoose-pagination
+
 
 
 
