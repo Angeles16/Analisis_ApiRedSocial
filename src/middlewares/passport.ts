@@ -11,12 +11,14 @@ const opts: StrategyOptions = {
 };
 
 
-export default new Strategy(opts, (payload, done) => { //devuelve un payload o un callback para terminar con todo 
+export default new Strategy(opts, async (payload, done) => { //devuelve un payload o un callback para terminar con todo 
     try {
         //if()
-        const user = User.findById(payload.id);
-        console.log(payload.exp);
+        
+        const user = await User.findById(payload.id);
+        console.log("puta vida ==> "+ user);
         if(user){
+            
             return done(null, user);
         }
     return done(null, false);   

@@ -56,7 +56,7 @@ export const signIg = async (req: Request, res: Response) => {
         
         //this.User = tokenuse;
         req.user = user;
-        console.log('Token ===> ' + user.sub);
+        console.log('Token ===> ' + user._id);
         return res.status(200).json({token: jwt.createToken(user)})
     }
     
@@ -85,7 +85,6 @@ export const getUser = (req: Request, res: Response) => {
 }
 
 //get data users pagination
-export const getUsersPag = (req: Request, res: Response) => {
-    let identity_user_id;
-    let identity_id;
+export const getUserLog = (req: Request, res: Response) => {
+    //req.user
 }
