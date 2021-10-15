@@ -1,24 +1,7 @@
 import {Request, Response} from 'express';
 import User, {IUser} from '../models/usuario.models';
-//import jwt from 'jsonwebtoken';
 import config from '../config/config';
 import jwt = require('../service/jwt');
-import moment from 'moment';
-
-
-/* -------------CREATE TOKEN------------- 
-function createToken(user: IUser){
-    const payload = {
-        id: user.id,
-        email: user.email,
-        nick: user.nick,
-        iat: moment().unix(),//Fecha de creacion del token 
-        exp: moment().add(30, 'days').unix() //Fecha de expiracion del token
-    };
-
-    return jwt.sign(payload, config.jwtSecret);
-} 
- -------------FIN CREATE TOKEN------------- */
 
 export const signUp = async (req: Request, res: Response): Promise<Response> => {
     if(!req.body.nombre || !req.body.apellido || !req.body.nick || !req.body.email || !req.body.password) {
@@ -51,15 +34,8 @@ export const signIg = async (req: Request, res: Response) => {
 
     const isMatch = await user?.comparePassword(req.body.password);
     if(isMatch) {
-        //res.status(200).json({mensaje: 'The user set create token'});
-        const tokenuse = jwt.createToken(user);
-        
-        //this.User = tokenuse;
-        req.user = user;
-        console.log('Token ===> ' + user._id);
         return res.status(200).json({token: jwt.createToken(user)})
-    }
-    
+    }   
     return res.status(400).json({mensaje: 'the email or password are incorrect'});
 }
 
@@ -85,6 +61,8 @@ export const getUser = (req: Request, res: Response) => {
 }
 
 //get data users pagination
-export const getUserLog = (req: Request, res: Response) => {
-    //req.user
+export const getUserLog = async (req: Request, res: Response) => {
+    const user = await User.findById(req.userId);
+    console.log("Paty ",user);
+    res.send('nice');
 }

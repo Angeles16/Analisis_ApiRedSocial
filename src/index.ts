@@ -6,7 +6,7 @@ import passport from 'passport';
 import './database';
 import userRoutes from './routes/usuario.routes';
 import userProtectRoutes from './routes/userProtect.routes';
-import passportMiddleware from './middlewares/passport'
+
 
 class Server {
     public app: Application;
@@ -28,8 +28,7 @@ class Server {
         this.app.use(cors());
         this.app.use(express.urlencoded({extended:false}));
         this.app.use(express.json());
-        this.app.use(passport.initialize());
-        passport.use(passportMiddleware);
+        
     }
 
     router(): void {

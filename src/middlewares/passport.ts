@@ -1,28 +1,24 @@
 //comprobar si el token es correco y validar secional
 //estrategia para crear metodo de autenticacion para
-
-import {Strategy, ExtractJwt, StrategyOptions} from 'passport-jwt'
 import config from '../config/config';
-import User from '../models/usuario.models';
+import { Request, Response, NextFunction } from 'express'
+import jwt from 'jsonwebtoken';
 
-const opts: StrategyOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), //Va a extraer el token desde el headers luego busca el Bear y extrae el token 
-    secretOrKey: config.jwtSecret
-};
+interface IPayload {
+    id: string;
+    iat: number;
+    exp: number;
+}
 
 
-export default new Strategy(opts, async (payload, done) => { //devuelve un payload o un callback para terminar con todo 
-    try {
-        //if()
-        
-        const user = await User.findById(payload.id);
-        console.log("puta vida ==> "+ user);
-        if(user){
-            
-            return done(null, user);
-        }
-    return done(null, false);   
-    } catch (error) {
-        console.log(error);
+export const verificarToken = (req: Request, res: Response, next: NextFunction ) => {
+    const token = req.header('auth-token');
+    if(!token) {
+        return res.status(401).json('Access Denied');
     }
-})
+    const payload = jwt.verify(token, config.jwtSecret) as IPayload;
+    console.log('token', payload, 'ayuda');
+    req.userId = payload.id;
+    next();
+}
+
