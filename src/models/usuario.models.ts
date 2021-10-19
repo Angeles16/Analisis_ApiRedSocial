@@ -1,5 +1,6 @@
 import { model, Schema, Document} from 'mongoose';
 import bcrypt = require('bcrypt');
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 export interface IUser extends Document{
     id: any;
@@ -66,6 +67,9 @@ userSchema.methods.comparePassword = async function(password: string): Promise<B
     //password => hacer referencia a la contraseña pasada como parametro 
     //this.pssword => hacer referencia a la contraseña almacenada en la base de datos ==/ usuario actual
 }
+
+//tener acceso a paginate desde userSchema
+userSchema.plugin(mongoosePaginate);
 
 
 //almacena datos en un esquema usuarios ==> mongoose setea el nombre del Usuario

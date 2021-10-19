@@ -1,10 +1,15 @@
 import express from 'express';
 const router = express.Router();
-
-import {getUser, getUserLog} from '../controller/usuario.controller';
-import passport from 'passport';
-
 import { verificarToken } from '../middlewares/passport';
+const uploadUser = require('../middlewares/multer');
+
+import {
+    getUser, 
+    getUserLog, 
+    getUsersPag, 
+    updateUserData,
+    uploadImgUser
+} from '../controller/usuario.controller';
 
 
 router.get('/protect', verificarToken, (req, res) => {
@@ -12,6 +17,9 @@ router.get('/protect', verificarToken, (req, res) => {
 })
 
 //get user
-router.get('/userlog', verificarToken, getUserLog)
-router.get('/user/:id', verificarToken, getUser)
+router.get('/userlog', verificarToken, getUserLog);
+router.get('/getuserspag/:page?', verificarToken, getUsersPag);
+router.put('/updateuserdata/:id', verificarToken, updateUserData);
+router.post('/uploaduserimg/:id', [verificarToken, uploadUser], uploadImgUser);
+router.get('/user/:id', verificarToken, getUser);
 export default router;

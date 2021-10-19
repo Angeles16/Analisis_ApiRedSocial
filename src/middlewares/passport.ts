@@ -3,6 +3,7 @@
 import config from '../config/config';
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken';
+import User, {IUser} from'../models/usuario.models';
 
 interface IPayload {
     id: string;
@@ -11,7 +12,7 @@ interface IPayload {
 }
 
 
-export const verificarToken = (req: Request, res: Response, next: NextFunction ) => {
+export const verificarToken = async(req: Request, res: Response, next: NextFunction ) => {
     const token = req.header('auth-token');
     if(!token) {
         return res.status(401).json('Access Denied');
@@ -20,5 +21,6 @@ export const verificarToken = (req: Request, res: Response, next: NextFunction )
     console.log('token', payload, 'ayuda');
     req.userId = payload.id;
     next();
+    
 }
 

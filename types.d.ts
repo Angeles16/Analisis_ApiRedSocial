@@ -3,3 +3,6 @@ declare namespace Express {
     userId: string;
   }
 }
+interface MulterRequest extends Request {
+  file: any;
+}
