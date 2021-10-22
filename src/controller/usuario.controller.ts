@@ -70,10 +70,10 @@ export const getUser = (req: Request, res: Response) => {
 
 //get registred user data token
 export const getUserLog = async (req: Request, res: Response) => {
-    const id = req.userId;
+    const id = req.userId.id;
 
     User.findById(id, {password: 0},(err: any, user: any) => {
-        if(err) return res.status(500).send({mensaje: 'Error query'})
+        if(err) return res.status(500).send({mensaje: err})
         if(!user) return res.status(401).send({mensaje: 'User not found'});
 
         return res.status(200).send({user});

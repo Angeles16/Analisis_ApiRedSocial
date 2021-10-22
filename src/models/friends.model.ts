@@ -9,10 +9,12 @@ export interface IFriends extends Document{
 const friendSchema = new Schema({
     user: {
         type: mongoose.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
     friends: {
         type: mongoose.Types.ObjectId,
+        ref: 'User',
         required: true
     }
 });

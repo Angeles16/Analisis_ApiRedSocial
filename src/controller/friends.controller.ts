@@ -48,7 +48,7 @@ export const deleteFriends = async (req: Request, res: Response) => {
 
 //paginate friends 
 export const paginateFriends = async (req: Request, res: Response) => {
-    let userId = req.userId; 
+    let userId = req.userId.id; 
     let data = req.params;
 
     if(req.params.id) { 
@@ -62,9 +62,10 @@ export const paginateFriends = async (req: Request, res: Response) => {
     }
 
     let limit: number = 3; //items per page
-
+    console.log(req.userId);
     try{
-        const friendPaginate = await Friends.paginate({user: userId},{sort: '_id', limit: limit, page: pag, populate: {path: 'friends'} });
+        const friendPaginate = await Friends.paginate({user: userId},{sort: '_id', limit: limit, page: pag, populate: {path: 'friends'}});
+        //const friendPaginate = await Friends.find({user: userId}).populate({path: 'friends'});
 
         if(!friendPaginate) return res.status(401).send({message: 'no friends added'});
 

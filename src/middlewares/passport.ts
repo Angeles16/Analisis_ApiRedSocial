@@ -7,8 +7,11 @@ import User, {IUser} from'../models/usuario.models';
 
 interface IPayload {
     id: string;
-    iat: number;
-    exp: number;
+    nombre: string;
+    apellido: string; 
+    nick: string;
+    email: string; 
+    imagen: string; 
 }
 
 
@@ -19,7 +22,7 @@ export const verificarToken = async(req: Request, res: Response, next: NextFunct
     }
     const payload = jwt.verify(token, config.jwtSecret) as IPayload;
     console.log('token', payload, 'ayuda');
-    req.userId = payload.id;
+    req.userId = payload;
     next();
     
 }
