@@ -10,7 +10,7 @@ export interface IUser extends Document{
     email: string; 
     password: string; 
     roles: string; 
-    imagenes: string; 
+    imagen: string; 
     comparePassword: (password: string) => Promise<boolean>;
 }
 
@@ -41,7 +41,7 @@ const userSchema = new Schema({
     roles: {
         type: String,
     },
-    imagenes: {
+    imagen: {
         type: String
     },
 }, 

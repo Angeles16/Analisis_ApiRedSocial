@@ -2,7 +2,11 @@ import {Request, Response} from 'express';
 import User, {IUser} from '../models/usuario.models';
 import config from '../config/config';
 import jwt = require('../service/jwt');
-import { removeFile } from'../service/deleteFile'
+const path = require('path');
+const fs = require('fs');
+import { exists } from'fs';
+const removeFile = require('../service/deleteFile');
+
 
 
 export const signUp = async (req: Request, res: Response): Promise<Response> => {
@@ -41,8 +45,15 @@ export const signIg = async (req: Request, res: Response) => {
 
 //pruebas
 export const consulta = async (req: Request, res: Response) => {
-    const user = await User.find();
-    return res.status(200).json({user});
+    const {id} = req.query;
+    console.log('entre a la consulta por usauario ==> ' + id)
+    try {
+        const user = await User.find({_id: id});
+        if(!user) return res.status(404).send({message: 'No existen usuarios'});
+        return res.status(200).json({user});
+    } catch( err: any) {
+        return res.status(500).send({mensaje: err.message});
+    }
 }
 
 //get user spesific data
@@ -79,7 +90,7 @@ export const getUsersPag = async (req: Request, res: Response) => {
 
     let itemPag: number = 3;
 
-    const usersPag = await User.paginate({}, {sort: '_id', limit: itemPag, page: page});
+    const usersPag = await User.paginate({/*recibe un parametro para que busque segun una propiedad*/}, {sort: '_id', limit: itemPag, page: page});
 
     if(usersPag.error) return res.status(500).send({message: 'Query error'});
     if(!usersPag) return res.status(404).send({message: 'no user available'});
@@ -110,28 +121,43 @@ export const updateUserData = (req: Request, res: Response) => {
 
 //upload image user
 export const uploadImgUser = async (req: Request, res: Response) => {
+    console.log('entre xd')
     const idPar = req.params.id;    
 
     if(req.file){
         let file_path = req.file?.path;
         console.log(file_path)
         let file_split_path = file_path.split('\\');    
-        let file_name = file_split_path[9];
+        console.log(file_split_path);
+        let file_name = file_split_path[7];
+        console.log('====> ', file_name);
         let file_name_split = file_name.split('.');
+        console.log(file_name_split);
         let file_ext = file_name_split[1];
         console.log(file_ext);
 
         if(idPar != req.userId){
             console.log('entre a la validacion por que el usuario no es valido')
-            removeFile(res, file_path, 'yoy do not have persmission to upload img in user')
+            return removeFile(res, file_path, 'yoy do not have persmission to upload img in user')
         }
         
+        //comprobar tipo de archivo
         if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg'){
             //update logger user document
-
+            
+            const imgUpdate = await User.findByIdAndUpdate(idPar, {imagen: file_name}); /* , (err: any, userUpdateImg) => {*/
+                
+                if(imgUpdate?.errors) return res.status(500).send({message: 'query error update'});
+                
+                if(!imgUpdate) return res.status(404).send({message: 'user could not be updated'});
+                console.log(`== SE SALIO ALV ==`)
+                return res.status(200).send({message: imgUpdate})
+                
+            
         } else {
             //delete file.img of upload 
-            removeFile(res, file_path, 'Archivo no valido - extencion')
+            console.log('entre a la validacion por que el usuario no es valido')
+            return removeFile(res, file_path, 'Archivo no valido - extencion')
         }
 
 
@@ -140,3 +166,21 @@ export const uploadImgUser = async (req: Request, res: Response) => {
     }
     return res.status(200).send({message: 'image upload'})
 }
+
+//get image file 
+export const getImageFile = (req: Request, res: Response) => {
+    const imageFile = req.params.img;
+    const pathFile = path.join(__dirname, '../../../upload/user', imageFile);
+    console.log(path.join(__dirname, '../../../upload/user'));
+
+
+    exists(pathFile, (exists) => {
+        if(exists){
+            res.sendFile(path.resolve(pathFile));
+        } else {
+            res.status(200).send({message: 'image not exists'});
+        }
+    })
+    
+}
+

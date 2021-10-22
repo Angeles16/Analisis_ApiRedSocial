@@ -2,10 +2,12 @@ import express, {Application} from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import passport from 'passport';
+import path from 'path';
 
 import './database';
 import userRoutes from './routes/usuario.routes';
 import userProtectRoutes from './routes/userProtect.routes';
+import friendsRouter from './routes/friends.routes';
 
 
 class Server {
@@ -16,7 +18,7 @@ class Server {
         this.settings();
         this.middleware();
         this.router();
-        
+        this.publi();
     }
 
     settings(): void {
@@ -38,7 +40,14 @@ class Server {
 
         
         this.app.use('/api/user',userRoutes);
-        this.app.use(userProtectRoutes);
+        this.app.use('/api/user', userProtectRoutes);
+        this.app.use('/api/friends', friendsRouter)
+    }
+
+    //app.use(express.static(path.join(__dirname, 'public')));
+    publi(): void {
+        this.app.use(express.static(path.join(__dirname, '../../upload/user')));
+        console.log('ruta publica para las imagenes'  + path.join(__dirname, '../../upload/user'));
     }
 
     start(): void {
