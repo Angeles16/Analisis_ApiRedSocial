@@ -70,7 +70,7 @@ export const getUser = (req: Request, res: Response) => {
 
 //get registred user data token
 export const getUserLog = async (req: Request, res: Response) => {
-    const id = req.userId.id;
+    const id = req.userPayload.id;
 
     User.findById(id, {password: 0},(err: any, user: any) => {
         if(err) return res.status(500).send({mensaje: err})
@@ -82,7 +82,7 @@ export const getUserLog = async (req: Request, res: Response) => {
 
 //get user paginate
 export const getUsersPag = async (req: Request, res: Response) => {
-    const identity_user = req.userId;
+    const identity_user = req.userPayload.id;
     let page: number = 1;
     if(req.params.page){
         page = +req.params.page;
@@ -107,7 +107,7 @@ export const updateUserData = (req: Request, res: Response) => {
     //eliminar la propiedad password de los datos obtenidos del req.body
     delete updateData.password;
 
-    if(idPar != req.userId){
+    if(idPar != req.userPayload.id){
         return res.status(500).send({message: 'you do not permission to update user'});
     }
 
@@ -136,7 +136,7 @@ export const uploadImgUser = async (req: Request, res: Response) => {
         let file_ext = file_name_split[1];
         console.log(file_ext);
 
-        if(idPar != req.userId){
+        if(idPar != req.userPayload.id){
             console.log('entre a la validacion por que el usuario no es valido')
             return removeFile(res, file_path, 'yoy do not have persmission to upload img in user')
         }

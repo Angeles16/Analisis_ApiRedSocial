@@ -7,13 +7,17 @@ import {
     testFriends,
     saveFriends,
     deleteFriends,
-    paginateFriends
+    paginateFriends,
+    getFriends,
+    getCountFriends
 } from'../controller/friends.controller';
 
 router.get('/testfriends', testFriends);
-router.post('/newfriend', verificarToken, saveFriends)
+router.post('/newfriend', verificarToken, saveFriends);
 router.delete('/deletefriend/:id', verificarToken, deleteFriends);
-router.get('/getfriendsPag/:id?/:pag?', verificarToken, paginateFriends)
+router.get('/getfriendsPag', verificarToken, paginateFriends);
+router.get('/getfriend', verificarToken, getFriends);
+router.get('/getcount/:id?', verificarToken, getCountFriends);
 
 
 export default router;

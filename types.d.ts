@@ -1,6 +1,6 @@
 declare namespace Express {
   export interface Request {
-    userId;
+    userPayload;
     tenant?: string;
   }
 }

@@ -8,6 +8,7 @@ import './database';
 import userRoutes from './routes/usuario.routes';
 import userProtectRoutes from './routes/userProtect.routes';
 import friendsRouter from './routes/friends.routes';
+import postRouter from './routes/post.routes';
 
 
 class Server {
@@ -41,7 +42,8 @@ class Server {
         
         this.app.use('/api/user',userRoutes);
         this.app.use('/api/user', userProtectRoutes);
-        this.app.use('/api/friends', friendsRouter)
+        this.app.use('/api/friends', friendsRouter);
+        this.app.use('/api/post', postRouter)
     }
 
     //app.use(express.static(path.join(__dirname, 'public')));

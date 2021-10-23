@@ -22,7 +22,7 @@ export const verificarToken = async(req: Request, res: Response, next: NextFunct
     }
     const payload = jwt.verify(token, config.jwtSecret) as IPayload;
     console.log('token', payload, 'ayuda');
-    req.userId = payload;
+    req.userPayload = payload;
     next();
     
 }
