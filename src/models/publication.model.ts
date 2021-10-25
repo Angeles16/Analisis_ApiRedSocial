@@ -4,7 +4,8 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 export interface Ipublication extends Document{
     text: string;
     file: string;
-    createdAt: String;
+    createdAt: number;
+    private: boolean;
     user: Schema.Types.ObjectId
 }
 
@@ -21,10 +22,16 @@ const publicationSchema = new Schema({
         type: String,
         required: true,
     },
+    private: {
+        type: Boolean,
+        required: false
+    },
     user: { 
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
 });
+
+publicationSchema.plugin(mongoosePaginate);
 
 export default model<Ipublication> ('Publication', publicationSchema)

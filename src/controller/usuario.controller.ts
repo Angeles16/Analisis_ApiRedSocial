@@ -31,7 +31,6 @@ export const signIg = async (req: Request, res: Response) => {
     }
     //Consultar data user: any
     const user: any = await User.findOne({email: req.body.email});
-    console.log('test content user ==> ' + user)
     if(!user) {
         return res.status(400).json({mensaje: 'the password or email are incorrect'});
     }

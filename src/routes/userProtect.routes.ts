@@ -27,4 +27,5 @@ router.put('/updateuserdata/:id', verificarToken, updateUserData);
 router.post('/uploaduserimg/:id', [verificarToken, uploadUser], uploadImgUser);
 router.get('/getimguser/:img', getImageFile)
 router.get('/user/:id', verificarToken, getUser);
+
 export default router;
